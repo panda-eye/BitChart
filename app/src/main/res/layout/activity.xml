@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bitchartdev.bitchart.BitChartActivity"
+    android:orientation="vertical"
+    android:weightSum="3">
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:id="@+id/graph"/>
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:weightSum="3">
+        <include layout="@layout/btc_item_layout"
+            android:id="@+id/kraken"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"/>
+        <include layout="@layout/btc_item_layout"
+            android:id="@+id/yobit"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"/>
+        <include layout="@layout/btc_item_layout"
+            android:id="@+id/bittrex"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+</android.support.v7.widget.LinearLayoutCompat>

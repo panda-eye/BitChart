@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Hack the BTC</string>
+
+    <!-- Links -->
+    <string name="yobit_link">https://yobit.net/api/3/ticker/btc_usd</string>
+    <string name="bitfinex_link">https://api.bitfinex.com/v1/pubticker/btcusd</string>
+    <string name="kraken_link">https://api.kraken.com/0/public/Ticker?pair=XBTUSD</string>
+
+    <string name="update_item_title">Update</string>
+    <string name="update_failed">Unable to update the actual exchange rate. Try again later.</string>
+    <string name="update_ok">The actual exchange rate was updated successfully!</string>
+</resources>
