@@ -17,10 +17,12 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LimitLine
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.Utils
 import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
@@ -84,7 +86,7 @@ class BitChartActivity : AppCompatActivity() {
 //        krakenSeries.setAnimated(true)
 //        krakenSeries.backgroundColor = ContextCompat.getColor(this@BitChartActivity, R.color.kraken_graph_line)
 //        krakenSeries.title = getString(R.string.name_kraken)
-        setData(market.parse())
+        setData(market.parse(), arrayListOf(10000f,11000f, 12000f), arrayListOf(11200f, 11000f, 10800f))
     }
     fun readYoBit(market: TaskHelper.Companion.Market) {
 //        val yoBitSeries = LineGraphSeries<Float>(market.parse())
@@ -168,45 +170,87 @@ class BitChartActivity : AppCompatActivity() {
 
     }
 
-    private fun setData(list: List<Float>) {
-        val set1: LineDataSet
+    private fun setData(listFirt: List<Float>, listSec: List<Float>, listThird: List<Float>) {
+        var set1: LineDataSet
+        var set2: LineDataSet
+        var set3: LineDataSet
 
-        val entryList = ArrayList<Entry>()
-        (0 until list.size).mapTo(entryList) { Entry(it.toFloat(), list[it]) }
+        val entryListFirst = ArrayList<Entry>()
+        val entryListSec = ArrayList<Entry>()
+        val entryListThird = ArrayList<Entry>()
+        (0 until listFirt.size).mapTo(entryListFirst) { Entry(it.toFloat(), listFirt[it]) }
+        (0 until listSec.size).mapTo(entryListSec) { Entry(it.toFloat(), listSec[it]) }
+        (0 until listThird.size).mapTo(entryListThird) { Entry(it.toFloat(), listThird[it]) }
 
-        if (lineChart.data != null && lineChart.data.dataSetCount > 0) {
-            set1 = lineChart.data.getDataSetByIndex(0) as LineDataSet
-            set1.values = entryList
-            lineChart.data.notifyDataChanged()
+        if (lineChart.data != null && lineChart.getData().getDataSetCount() > 0) run {
+            set1 = lineChart.getData().getDataSetByIndex(0) as LineDataSet
+            set2 = lineChart.getData().getDataSetByIndex(1) as LineDataSet
+            set3 = lineChart.getData().getDataSetByIndex(2) as LineDataSet
+            set1.values = entryListFirst
+            set2.values = entryListSec
+            set3.values = entryListThird
+            lineChart.getData().notifyDataChanged()
             lineChart.notifyDataSetChanged()
         } else {
             // create a dataset and give it a type
-            set1 = LineDataSet(entryList, "DataSet 1")
+            set1 = LineDataSet(entryListFirst, "DataSet 1")
 
-            set1.setDrawIcons(false)
-
-            // set the line to be drawn like this "- - - - - -"
-            set1.enableDashedLine(10f, 5f, 0f)
-            set1.enableDashedHighlightLine(10f, 5f, 0f)
-            set1.color = Color.BLACK
+            set1.axisDependency = YAxis.AxisDependency.LEFT
+            set1.color = ColorTemplate.getHoloBlue()
             set1.setCircleColor(Color.BLACK)
-            set1.lineWidth = 1f
+            set1.lineWidth = 2f
             set1.circleRadius = 3f
+            set1.fillAlpha = 65
+            set1.fillColor = ColorTemplate.getHoloBlue()
+            set1.highLightColor = Color.rgb(244, 117, 117)
             set1.setDrawCircleHole(false)
-            set1.valueTextSize = 9f
-            set1.setDrawFilled(true)
-            set1.formLineWidth = 1f
-            set1.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
-            set1.formSize = 15f
+            //set1.setFillFormatter(new MyFillFormatter(0f));
+            //set1.setDrawHorizontalHighlightIndicator(false);
+            //set1.setVisible(false);
+            //set1.setCircleHoleColor(Color.WHITE);
 
-            val dataSets = java.util.ArrayList<ILineDataSet>()
-            dataSets.add(set1) // add the datasets
+            // create a dataset and give it a type
+            set2 = LineDataSet(entryListSec, "DataSet 2")
+            set2.setAxisDependency(YAxis.AxisDependency.RIGHT)
+            set2.setColor(Color.RED)
+            set2.setCircleColor(Color.BLACK)
+            set2.setLineWidth(2f)
+            set2.setCircleRadius(3f)
+            set2.setFillAlpha(65)
+            set2.setFillColor(Color.RED)
+            set2.setDrawCircleHole(false)
+            set2.setHighLightColor(Color.rgb(244, 117, 117))
+            //set2.setFillFormatter(new MyFillFormatter(900f));
+
+            set3 = LineDataSet(entryListThird, "DataSet 3")
+            set3.setAxisDependency(YAxis.AxisDependency.RIGHT)
+            set3.setColor(Color.YELLOW)
+            set3.setCircleColor(Color.BLACK)
+            set3.setLineWidth(2f)
+            set3.setCircleRadius(3f)
+            set3.setFillAlpha(65)
+            set3.setFillColor(ColorTemplate.colorWithAlpha(Color.GREEN, 200))
+            set3.setDrawCircleHole(false)
+            set3.setHighLightColor(Color.rgb(244, 117, 117))
 
             // create a data object with the datasets
-            val data = LineData(dataSets)
+            val data = LineData(set1, set2, set3)
+            data.setValueTextColor(Color.BLACK)
+            data.setValueTextSize(9f)
 
             // set data
-            lineChart.data = data
+            lineChart.setData(data)
+
+            val l = lineChart.getLegend()
+
+            // modify the legend ...
+            l.setForm(Legend.LegendForm.LINE)
+            l.setTextSize(11f)
+            l.setTextColor(Color.BLACK)
+            l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM)
+            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT)
+            l.setOrientation(Legend.LegendOrientation.HORIZONTAL)
+            l.setDrawInside(false)
         }
     }
 
