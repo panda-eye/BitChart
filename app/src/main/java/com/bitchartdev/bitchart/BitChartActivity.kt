@@ -1,32 +1,22 @@
 package com.bitchartdev.bitchart
 
 import android.graphics.Color
-import android.graphics.DashPathEffect
-import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutCompat
 import android.view.Menu
 import android.view.MenuItem
-import com.bitchartdev.bitchart.Tasks.KrakenTask
 import com.bitchartdev.bitchart.Tasks.TaskHelper
+import com.bitchartdev.bitchart.Tasks.YoBitTask
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.LimitLine
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.github.mikephil.charting.utils.Utils
-import com.jjoe64.graphview.GraphView
-import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.android.synthetic.main.activity.*
 import java.lang.ref.WeakReference
 
@@ -95,8 +85,8 @@ class BitChartActivity : AppCompatActivity() {
 
     private fun executeTasks(showError: Boolean = false) {
         if (TaskHelper.hasInternet(this@BitChartActivity)) {
-            KrakenTask().execute(ref)
-            //YoBitTask().execute(ref)
+            //KrakenTask().execute(ref)
+            YoBitTask().execute(ref)
             //BitfinesTask().execute(ref)
 
 //            graphLayout.removeAllSeries()
