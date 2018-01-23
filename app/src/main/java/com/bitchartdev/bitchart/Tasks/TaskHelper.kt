@@ -1,5 +1,7 @@
 package com.bitchartdev.bitchart.Tasks
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.view.View
@@ -46,6 +48,14 @@ class TaskHelper {
             snack.show()
         }
 
-        fun hasInternet() = Runtime.getRuntime().exec ("ping -c 1 google.com").waitFor() == 0
+        fun hasInternet(context: Context) = (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+                    .activeNetworkInfo?.isConnected ?: false
+
+        class Market {
+            var min = ""
+            var max = ""
+            var min24h = ""
+            var max24h = ""
+        }
     }
 }

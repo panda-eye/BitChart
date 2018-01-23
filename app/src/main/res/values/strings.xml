@@ -10,5 +10,16 @@
     <string name="update_failed">Unable to update the actual exchange rate. Try again later.</string>
     <string name="update_ok">The actual exchange rate was updated successfully!</string>
 
-    <string name="message_no_internet">No access to the network</string>
+    <string name="no_internet">No access to the network</string>
+    <string name="no_data">—</string>
+
+    <!-- Titles -->
+    <string name="name_title">Market name</string>
+    <string name="min_title">Min BTC price</string>
+    <string name="max_title">Max BTC price</string>
+
+    <!-- Market names -->
+    <string name="name_kraken">Kraken</string>
+    <string name="name_bitfines">Bitfines</string>
+    <string name="name_yobit">YoBit</string>
 </resources>
