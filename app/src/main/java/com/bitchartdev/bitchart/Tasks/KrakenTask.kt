@@ -47,8 +47,8 @@ class KrakenTask: AsyncTask<WeakReference<BitChartActivity>, Unit, Pair<WeakRefe
                 val market = TaskHelper.Companion.Market()
                 //market.max = max[0]
                 //market.min = min[0]
-                market.min24h = min[1]
-                market.max24h = max[1]
+                market.min24h = min[1].toDoubleOrNull()?.toString() ?: ""
+                market.max24h = max[1].toDoubleOrNull()?.toString() ?: ""
                 activity.readKraken(market)
             } catch (e: Exception) {e.printStackTrace()}
         }

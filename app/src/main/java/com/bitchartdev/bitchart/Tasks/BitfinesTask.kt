@@ -39,8 +39,8 @@ class BitfinesTask : AsyncTask<WeakReference<BitChartActivity>, Unit, Pair<WeakR
             val activity = pair.first.get() ?: return
             try {
                 val market = TaskHelper.Companion.Market()
-                market.min24h = parsed["low"] ?: ""
-                market.max24h = parsed["high"] ?: ""
+                market.min24h = parsed["low"]?.toDoubleOrNull()?.toString() ?: ""
+                market.max24h = parsed["high"]?.toDoubleOrNull()?.toString() ?: ""
                 activity.readBitfines(market)
             } catch (e: Exception) {e.printStackTrace()}
         }
