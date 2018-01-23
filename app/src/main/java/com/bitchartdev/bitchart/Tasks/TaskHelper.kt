@@ -45,5 +45,7 @@ class TaskHelper {
             snack.view.background = ContextCompat.getDrawable(view.context, R.color.snackbar_background)
             snack.show()
         }
+
+        fun hasInternet() = Runtime.getRuntime().exec ("ping -c 1 google.com").waitFor() == 0
     }
 }

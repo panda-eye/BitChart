@@ -1,8 +1,8 @@
 package com.bitchartdev.bitchart
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutCompat
 import android.view.Menu
 import android.view.MenuItem
@@ -22,6 +22,7 @@ class BitChartActivity : AppCompatActivity() {
     lateinit var yoBitLayout: LinearLayoutCompat
     lateinit var bittrexLayout: LinearLayoutCompat
     lateinit var graphLayout: GraphView
+    lateinit var forSnackbarLayout: LinearLayoutCompat
     private val ref = WeakReference(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,15 +33,18 @@ class BitChartActivity : AppCompatActivity() {
         yoBitLayout = yobit as LinearLayoutCompat
         bittrexLayout = bittrex as LinearLayoutCompat
         graphLayout = graph
+        forSnackbarLayout = for_snackbar
 
         TaskHelper.mapper = ObjectMapper().registerKotlinModule()
     }
     override fun onResume() {
         super.onResume()
         // TODO: Uncomment
-        KrakenTask().execute(ref)
-        //YoBitTask().execute(ref)
-        //BitfinesTask().execute(ref)
+        if (TaskHelper.hasInternet()) {
+            KrakenTask().execute(ref)
+            //YoBitTask().execute(ref)
+            //BitfinesTask().execute(ref)
+        }
     }
 
     fun readKraken() {
@@ -57,6 +61,16 @@ class BitChartActivity : AppCompatActivity() {
         val bitfinesSeries = LineGraphSeries<DataPoint>(arrayOf(p(0.0, 0.0)))
         bitfinesSeries.setAnimated(true)
         bitfinesSeries.backgroundColor = ContextCompat.getColor(this@BitChartActivity, R.color.bitfines_graph_line)
+    }
+
+    private fun executeTasks(showError: Boolean = false) {
+        if (TaskHelper.hasInternet()) {
+            KrakenTask().execute(ref)
+            //YoBitTask().execute(ref)
+            //BitfinesTask().execute(ref)
+        } else if (showError) {
+            TaskHelper.showTaskSnackbar(forSnackbarLayout, R.string.message_no_internet)
+        }
     }
 
     private fun p(x: Double, y: Double) = DataPoint(x, y)

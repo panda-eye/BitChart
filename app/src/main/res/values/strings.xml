@@ -9,4 +9,6 @@
     <string name="update_item_title">Update</string>
     <string name="update_failed">Unable to update the actual exchange rate. Try again later.</string>
     <string name="update_ok">The actual exchange rate was updated successfully!</string>
+
+    <string name="message_no_internet">No access to the network</string>
 </resources>

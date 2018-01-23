@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.bitchartdev.bitchart.BitChartActivity"
     android:orientation="vertical"
-    android:weightSum="3">
+    android:weightSum="3"
+    android:id="@+id/for_snackbar">
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="0dp"
