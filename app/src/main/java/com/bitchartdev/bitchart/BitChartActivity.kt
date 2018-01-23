@@ -7,6 +7,8 @@ import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutCompat
 import android.view.Menu
 import android.view.MenuItem
+import com.bitchartdev.bitchart.Tasks.BitfinesTask
+import com.bitchartdev.bitchart.Tasks.KrakenTask
 import com.bitchartdev.bitchart.Tasks.TaskHelper
 import com.bitchartdev.bitchart.Tasks.YoBitTask
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -76,18 +78,22 @@ class BitChartActivity : AppCompatActivity() {
     }
 
     fun readYoBit(market: TaskHelper.Companion.Market) {
+        yoBitMax.text = market.max24h
+        yoBitMin.text = market.min24h
         addDataSet(market.parse(), "YoBit")
         // TODO:
     }
     fun readBitfines(market: TaskHelper.Companion.Market) {
+        bitfinesMax.text = market.max24h
+        bitfinesMin.text = market.min24h
         addDataSet(market.parse(), "Bitfines")
     }
 
     private fun executeTasks(showError: Boolean = false) {
         if (TaskHelper.hasInternet(this@BitChartActivity)) {
-            //KrakenTask().execute(ref)
+            KrakenTask().execute(ref)
             YoBitTask().execute(ref)
-            //BitfinesTask().execute(ref)
+            BitfinesTask().execute(ref)
 
 //            graphLayout.removeAllSeries()
         } else if (showError) {
