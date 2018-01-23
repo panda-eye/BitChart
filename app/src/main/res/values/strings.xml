@@ -12,6 +12,7 @@
 
     <string name="no_internet">No access to the network</string>
     <string name="no_data">—</string>
+    <string name="to">to</string>
 
     <!-- Titles -->
     <string name="name_title">Market name</string>

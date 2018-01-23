@@ -5,4 +5,6 @@
         android:title="@string/update_item_title"
         android:icon="@drawable/ic_update"
         app:showAsAction="always"/>
+    <item android:id="@+id/sheet"
+        android:title="Calculate"/>
 </menu>

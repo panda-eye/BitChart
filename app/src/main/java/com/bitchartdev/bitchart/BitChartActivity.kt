@@ -2,11 +2,14 @@ package com.bitchartdev.bitchart
 
 import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.BottomSheetDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutCompat
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.widget.RelativeLayout
 import com.bitchartdev.bitchart.Tasks.BitfinesTask
 import com.bitchartdev.bitchart.Tasks.KrakenTask
 import com.bitchartdev.bitchart.Tasks.TaskHelper
@@ -33,6 +36,9 @@ class BitChartActivity : AppCompatActivity() {
     private lateinit var bitfinesMin: AppCompatTextView
     private lateinit var bitfinesMax: AppCompatTextView
 
+    private lateinit var bottomSheet: BottomSheetDialog
+    private lateinit var bottomLayout: LinearLayoutCompat
+
     private lateinit var lineChart: LineChart
     lateinit var forSnackbarView: LinearLayoutCompat
     private val ref = WeakReference(this)
@@ -56,6 +62,11 @@ class BitChartActivity : AppCompatActivity() {
         yoBitLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_yobit)
         yoBitMin = yoBitLayout.findViewById(R.id.marketMin)
         yoBitMax = yoBitLayout.findViewById(R.id.marketMax)
+
+        bottomSheet = BottomSheetDialog(this@BitChartActivity)
+        bottomLayout = LinearLayoutCompat(this@BitChartActivity)
+        bottomLayout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
+        bottomSheet.setContentView(bottomLayout)
 
         val bitfinesLayout = bittrex as LinearLayoutCompat
         bitfinesLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_bitfines)
@@ -95,6 +106,41 @@ class BitChartActivity : AppCompatActivity() {
         if (++updated == 3) {
             updated = 0
             title = getString(R.string.app_name)
+            calculate()
+        }
+    }
+
+    private fun calculate() {
+        val toHaveBenefit = ArrayList<String>()
+        bottomLayout.removeAllViews()
+        val names = arrayOf(getString(R.string.name_kraken), getString(R.string.name_yobit), getString(R.string.name_bitfines))
+        names.forEach {
+            val temp = names.filter { a -> a != it }
+            temp.forEach { t ->
+                val text = "$it ${getString(R.string.to)} $t"
+                val right = 1.0 - when (t) {
+                    names[0] -> krakenCommission
+                    names[1] -> yoBitCommission
+                    else -> bitfinexCommission
+                }
+                val left = 1.0 - when (it) {
+                    names[0] -> krakenCommission
+                    names[1] -> yoBitCommission
+                    else -> bitfinexCommission
+                }
+
+                if (right > left) {
+                    toHaveBenefit.add(text)
+                }
+            }
+        }
+        if (toHaveBenefit.size == 0) {
+            bottomLayout.addView(AppCompatTextView(this@BitChartActivity).also { it.setText("No benefit"); it.setPadding(4,4,4,4) })
+        } else {
+            bottomLayout.addView(AppCompatTextView(this@BitChartActivity).also { it.setText("Benefits:"); it.setPadding(4,4,4,4) })
+            toHaveBenefit.forEach {b ->
+                bottomLayout.addView(AppCompatTextView(this@BitChartActivity).also { it.setText(b); it.setPadding(4,4,4,4) })
+            }
         }
     }
 
@@ -280,6 +326,10 @@ class BitChartActivity : AppCompatActivity() {
                 executeTasks(true)
                 true
             }
+            R.id.sheet -> {
+                bottomSheet.show()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -294,6 +344,5 @@ class BitChartActivity : AppCompatActivity() {
         private val krakenCommission = 0.001
         private val bitfinexCommission = 0.0008
         private val yoBitCommission = 0.0005
-
     }
 }
