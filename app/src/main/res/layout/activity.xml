@@ -18,7 +18,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:weightSum="4">
+        android:weightSum="4"
+        android:layout_marginTop="@dimen/margin_market_items_layout_top_bottom"
+        android:layout_marginBottom="@dimen/margin_market_items_layout_top_bottom">
         <include layout="@layout/btc_item_layout"
             android:id="@+id/ttl"
             android:layout_weight="1"

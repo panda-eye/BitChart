@@ -2,4 +2,5 @@
 <resources>
     <dimen name="padding_market_names">4dp</dimen>
     <dimen name="padding_graph">2dp</dimen>
+    <dimen name="margin_market_items_layout_top_bottom">4dp</dimen>
 </resources>

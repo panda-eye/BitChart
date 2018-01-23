@@ -42,10 +42,10 @@ class BitChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity)
 
-        //val titleLayout = title as LinearLayoutCompat
-        //titleLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_title)
-        //titleLayout.findViewById<AppCompatTextView>(R.id.marketMin).setText(R.string.min_title)
-        //titleLayout.findViewById<AppCompatTextView>(R.id.marketMax).setText(R.string.max_title)
+        val titleLayout = title as LinearLayoutCompat
+        titleLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_title)
+        titleLayout.findViewById<AppCompatTextView>(R.id.marketMin).setText(R.string.min_title)
+        titleLayout.findViewById<AppCompatTextView>(R.id.marketMax).setText(R.string.max_title)
 
         val krakenLayout = kraken as LinearLayoutCompat
         krakenLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_kraken)
@@ -288,10 +288,12 @@ class BitChartActivity : AppCompatActivity() {
         private fun TaskHelper.Companion.Market.parse(): List<Float> {
             val ar = ArrayList<Float>()
             if (min24h != "") ar.add(min24h.toFloat())
-            //if (min != "") ar.add(p(min, 1.0))
-            //if (max != "") ar.add(p(max, 2.0))
             if (max24h != "") ar.add(max24h.toFloat())
             return ar
         }
+        private val krakenCommission = 0.001
+        private val bitfinexCommission = 0.0008
+        private val yoBitCommission = 0.0005
+
     }
 }
