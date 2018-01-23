@@ -65,6 +65,7 @@ class BitChartActivity : AppCompatActivity() {
 
         bottomSheet = BottomSheetDialog(this@BitChartActivity)
         bottomLayout = LinearLayoutCompat(this@BitChartActivity)
+        bottomLayout.orientation = LinearLayoutCompat.VERTICAL
         bottomLayout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT)
         bottomSheet.setContentView(bottomLayout)
 
