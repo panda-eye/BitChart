@@ -100,6 +100,11 @@ class BitChartActivity : AppCompatActivity() {
 
     private fun executeTasks(showError: Boolean = false) {
         if (TaskHelper.hasInternet(this@BitChartActivity)) {
+            lineChart.data.clearValues()
+            lineChart.data.notifyDataChanged()
+            lineChart.notifyDataSetChanged()
+            lineChart.invalidate()
+            resetText()
             title = getString(R.string.updating_title)
             KrakenTask().execute(ref)
             YoBitTask().execute(ref)
@@ -107,6 +112,15 @@ class BitChartActivity : AppCompatActivity() {
         } else if (showError) {
             TaskHelper.showTaskSnackbar(forSnackbarView, R.string.no_internet)
         }
+    }
+    private fun resetText() {
+        val line = getString(R.string.no_data)
+        krakenMax.text = line
+        krakenMin.text = line
+        yoBitMin.text = line
+        yoBitMax.text = line
+        bitfinesMin.text = line
+        bitfinesMax.text = line
     }
 
     private fun setChart() {
@@ -160,15 +174,15 @@ class BitChartActivity : AppCompatActivity() {
     }
 
     private fun addLegend() {
-        val l = lineChart.getLegend()
+        val l = lineChart.legend
 
         // modify the legend ...
-        l.setForm(Legend.LegendForm.LINE)
-        l.setTextSize(11f)
-        l.setTextColor(Color.BLACK)
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM)
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT)
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL)
+        l.form = Legend.LegendForm.LINE
+        l.textSize = 11f
+        l.textColor = Color.BLACK
+        l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        l.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+        l.orientation = Legend.LegendOrientation.HORIZONTAL
         l.setDrawInside(false)
     }
 
