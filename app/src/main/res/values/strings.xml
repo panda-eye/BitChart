@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hack the BTC</string>
+    <string name="app_name">BitChart</string>
 
     <!-- Links -->
     <string name="yobit_link">https://yobit.net/api/3/ticker/btc_usd</string>
