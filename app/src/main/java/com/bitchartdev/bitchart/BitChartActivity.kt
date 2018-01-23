@@ -36,15 +36,16 @@ class BitChartActivity : AppCompatActivity() {
     private lateinit var lineChart: LineChart
     lateinit var forSnackbarView: LinearLayoutCompat
     private val ref = WeakReference(this)
+    private var updated = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity)
 
-//        val titleLayout = title as LinearLayoutCompat
-//        titleLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_title)
-//        titleLayout.findViewById<AppCompatTextView>(R.id.marketMin).setText(R.string.min_title)
-//        titleLayout.findViewById<AppCompatTextView>(R.id.marketMax).setText(R.string.max_title)
+        //val titleLayout = title as LinearLayoutCompat
+        //titleLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_title)
+        //titleLayout.findViewById<AppCompatTextView>(R.id.marketMin).setText(R.string.min_title)
+        //titleLayout.findViewById<AppCompatTextView>(R.id.marketMax).setText(R.string.max_title)
 
         val krakenLayout = kraken as LinearLayoutCompat
         krakenLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_kraken)
@@ -75,27 +76,34 @@ class BitChartActivity : AppCompatActivity() {
         krakenMin.text = market.min24h
         krakenMax.text = market.max24h
         addDataSet(market.parse(),"Kraken")
+        updated()
     }
 
     fun readYoBit(market: TaskHelper.Companion.Market) {
         yoBitMax.text = market.max24h
         yoBitMin.text = market.min24h
         addDataSet(market.parse(), "YoBit")
-        // TODO:
+        updated()
     }
     fun readBitfines(market: TaskHelper.Companion.Market) {
         bitfinesMax.text = market.max24h
         bitfinesMin.text = market.min24h
         addDataSet(market.parse(), "Bitfines")
+        updated()
+    }
+    private fun updated() {
+        if (++updated == 3) {
+            updated = 0
+            title = getString(R.string.app_name)
+        }
     }
 
     private fun executeTasks(showError: Boolean = false) {
         if (TaskHelper.hasInternet(this@BitChartActivity)) {
+            title = getString(R.string.updating_title)
             KrakenTask().execute(ref)
             YoBitTask().execute(ref)
             BitfinesTask().execute(ref)
-
-//            graphLayout.removeAllSeries()
         } else if (showError) {
             TaskHelper.showTaskSnackbar(forSnackbarView, R.string.no_internet)
         }

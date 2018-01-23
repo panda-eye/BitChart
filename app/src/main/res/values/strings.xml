@@ -17,6 +17,7 @@
     <string name="name_title">Market name</string>
     <string name="min_title">Min BTC price</string>
     <string name="max_title">Max BTC price</string>
+    <string name="updating_title">Updating…</string>
 
     <!-- Market names -->
     <string name="name_kraken">Kraken</string>
