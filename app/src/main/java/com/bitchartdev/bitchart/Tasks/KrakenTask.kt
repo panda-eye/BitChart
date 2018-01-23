@@ -40,13 +40,13 @@ class KrakenTask: AsyncTask<WeakReference<BitChartActivity>, Unit, Pair<WeakRefe
         if (parsed.isNotEmpty() && (parsed["error"] as ArrayList<*>).size == 0) {
             val activity = pair.first.get() ?: return
             try {
-                val result = (parsed["pair"] as LinkedHashMap<String, LinkedHashMap<String, Any>>)["XXBTZUSD"]
+                val result = (parsed["result"] as LinkedHashMap<String, LinkedHashMap<String, Any>>)["XXBTZUSD"]
                         ?: return
                 val min = result["l"] as ArrayList<String>
                 val max = result["h"] as ArrayList<String>
                 val market = TaskHelper.Companion.Market()
-                market.max = max[0]
-                market.min = min[0]
+                //market.max = max[0]
+                //market.min = min[0]
                 market.min24h = min[1]
                 market.max24h = max[1]
                 activity.readKraken(market)

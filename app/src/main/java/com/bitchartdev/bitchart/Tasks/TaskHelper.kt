@@ -52,8 +52,8 @@ class TaskHelper {
                     .activeNetworkInfo?.isConnected ?: false
 
         class Market {
-            var min = ""
-            var max = ""
+            //var min = ""
+            //var max = ""
             var min24h = ""
             var max24h = ""
         }

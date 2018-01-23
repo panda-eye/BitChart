@@ -36,7 +36,7 @@ class BitChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity)
 
-        val titleLayout = title as LinearLayoutCompat
+        val titleLayout = ttl as LinearLayoutCompat
         titleLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_title)
         titleLayout.findViewById<AppCompatTextView>(R.id.marketMin).setText(R.string.min_title)
         titleLayout.findViewById<AppCompatTextView>(R.id.marketMax).setText(R.string.max_title)
@@ -68,21 +68,28 @@ class BitChartActivity : AppCompatActivity() {
 
     fun readKraken(market: TaskHelper.Companion.Market) {
         val krakenSeries = LineGraphSeries<DataPoint>(market.parse())
+        krakenMin.text = market.min24h
+        krakenMax.text = market.max24h
         krakenSeries.setAnimated(true)
         krakenSeries.backgroundColor = ContextCompat.getColor(this@BitChartActivity, R.color.kraken_graph_line)
+        krakenSeries.title = getString(R.string.name_kraken)
         graphLayout.addSeries(krakenSeries)
     }
     fun readYoBit(market: TaskHelper.Companion.Market) {
         val yoBitSeries = LineGraphSeries<DataPoint>(market.parse())
         yoBitSeries.setAnimated(true)
         yoBitSeries.backgroundColor = ContextCompat.getColor(this@BitChartActivity, R.color.yobit_graph_line)
+        yoBitSeries.title = getString(R.string.name_yobit)
         graphLayout.addSeries(yoBitSeries)
+        // TODO:
     }
     fun readBitfines(market: TaskHelper.Companion.Market) {
         val bitfinesSeries = LineGraphSeries<DataPoint>(market.parse())
         bitfinesSeries.setAnimated(true)
         bitfinesSeries.backgroundColor = ContextCompat.getColor(this@BitChartActivity, R.color.bitfines_graph_line)
+        bitfinesSeries.title = getString(R.string.name_bitfines)
         graphLayout.addSeries(bitfinesSeries)
+        // TODO:
     }
 
     private fun executeTasks(showError: Boolean = false) {
@@ -115,9 +122,9 @@ class BitChartActivity : AppCompatActivity() {
         private fun TaskHelper.Companion.Market.parse(): Array<DataPoint> {
             val ar = ArrayList<DataPoint>()
             if (min24h != "") ar.add(p(min24h, 0.0))
-            if (min != "") ar.add(p(min, 1.0))
-            if (max != "") ar.add(p(max, 2.0))
-            if (min24h != "") ar.add(p(max24h, 3.0))
+            //if (min != "") ar.add(p(min, 1.0))
+            //if (max != "") ar.add(p(max, 2.0))
+            if (max24h != "") ar.add(p(max24h, 1.5))
             return ar.toTypedArray()
         }
         private fun p(value: String, position: Double) = DataPoint(position, value.toDoubleOrNull() ?: 0.0)
