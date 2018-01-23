@@ -48,7 +48,7 @@ class BitChartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity)
 
-        val titleLayout = title as LinearLayoutCompat
+        val titleLayout = ttl as LinearLayoutCompat
         titleLayout.findViewById<AppCompatTextView>(R.id.marketName).setText(R.string.name_title)
         titleLayout.findViewById<AppCompatTextView>(R.id.marketMin).setText(R.string.min_title)
         titleLayout.findViewById<AppCompatTextView>(R.id.marketMax).setText(R.string.max_title)
